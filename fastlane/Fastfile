@@ -2,9 +2,9 @@ platform :android do
   desc "Upload AAB to Internal track"
   lane :upload_to_internal do
     supply(
-      json_key_data: ENV["GOOGLE_PLAY_JSON_KEY"], # можно также указать путь к .json
+      json_key_data: ENV["GOOGLE_PLAY_JSON_KEY"],
       package_name: "com.quizbridge.app",
-      aab: "build_output/quizbridge-v2.0.aab",
+      aab: Dir["build_output/*.aab"].first,
       track: "internal",
       release_status: "draft",
       skip_upload_changelogs: false,
