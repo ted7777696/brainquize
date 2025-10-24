@@ -1,71 +1,66 @@
 name: Deploy to Google Play
 
 on:
-  workflow_dispatch:  # запуск вручную
-  push:
-    tags:
-      - 'v*'          # запуск при пуше тега, например v3.0.0
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      # -------------------------------
-      # 1. Checkout репозиторий
-      # -------------------------------
       - name: Checkout
         uses: actions/checkout@v3
 
-      # -------------------------------
-      # 2. (Опционально) Собрать AAB
-      # Если у тебя уже есть .aab — пропусти этот шаг
-      # -------------------------------
-      # - name: Build AAB
-      #   run: |
-      #     ./gradlew bundleRelease
-      #     mkdir -p build_output
-      #     cp app/build/outputs/bundle/release/app-release.aab build_output/quizbridge-v${{ github.ref_name }}.aab
-
-      # -------------------------------
-      # 3. Создать GitHub Release и загрузить .AAB
-      # -------------------------------
-      - name: Create GitHub Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ github.ref_name }}
-          draft: false
-          prerelease: false
-          files: build_output/*.aab
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # -------------------------------
-      # 4. Скачать последний .AAB из релиза
-      # -------------------------------
       - name: Download AAB from GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -p build_output
-          gh release download latest --pattern "*.aab" --dir build_output
+          gh release download 2.0.0 \
+            --pattern "name: Deploy to Google Play
 
-      # -------------------------------
-      # 5. Установить Ruby и Fastlane
-      # -------------------------------
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download AAB from GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p build_output
+          gh release download 2.0.0 \
+            --pattern "com.beargrizsl.ibershfor_2.aab" \
+            --dir build_output
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.1
-
+          
       - name: Install Fastlane
         run: gem install fastlane
 
-      # -------------------------------
-      # 6. Загрузка AAB в Google Play (internal)
-      # -------------------------------
+      - name: Run Fastlane uploading
+        env:
+          GOOGLE_PLAY_JSON_KEY: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
+        run: |
+          export GOOGLE_PLAY_JSON_KEY="$(echo "$GOOGLE_PLAY_JSON_KEY")"
+          fastlane android upload_to_internal" \
+            --dir build_output
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1
+          
+      - name: Install Fastlane
+        run: gem install fastlane
+
       - name: Run Fastlane uploading
         env:
           GOOGLE_PLAY_JSON_KEY: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
