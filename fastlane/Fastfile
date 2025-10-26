@@ -5,8 +5,8 @@ platform :android do
       json_key_data: ENV["GOOGLE_PLAY_JSON_KEY"],
       package_name: "com.quizbridge.app",
       aab: "build_output/com.quizbridge.app_3.aab",
-      track: "open", # именно open
-      release_status: "completed", # чтобы реально пошло в тест, не draft
+      track: "beta", # ← вот так!
+      release_status: "completed",
       skip_upload_changelogs: false,
       skip_upload_images: true,
       skip_upload_screenshots: true,
