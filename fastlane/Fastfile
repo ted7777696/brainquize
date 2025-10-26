@@ -1,12 +1,12 @@
 platform :android do
-  desc "Upload AAB to Internal track"
-  lane :upload_to_internal do
+  desc "Upload AAB to Open testing track"
+  lane :upload_to_open do
     supply(
-      json_key_data: ENV["GOOGLE_PLAY_JSON_KEY"], # можно также указать путь к .json
+      json_key_data: ENV["GOOGLE_PLAY_JSON_KEY"],
       package_name: "com.quizbridge.app",
       aab: "build_output/com.quizbridge.app_3.aab",
-      track: "open",
-      release_status: "draft",
+      track: "open", # именно open
+      release_status: "completed", # чтобы реально пошло в тест, не draft
       skip_upload_changelogs: false,
       skip_upload_images: true,
       skip_upload_screenshots: true,
