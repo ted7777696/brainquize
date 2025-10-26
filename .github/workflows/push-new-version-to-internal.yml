@@ -1,4 +1,4 @@
-name: Deploy to Google Play
+name: Deploy to Google Play (Open Test)
 
 on:
   workflow_dispatch:
@@ -23,13 +23,13 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.1
-          
+
       - name: Install Fastlane
         run: gem install fastlane
 
-      - name: Run Fastlane uploading
+      - name: Run Fastlane uploading to Open Test
         env:
           GOOGLE_PLAY_JSON_KEY: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
         run: |
           export GOOGLE_PLAY_JSON_KEY="$(echo "$GOOGLE_PLAY_JSON_KEY")"
-          fastlane android upload_to_internal
+          fastlane android upload_to_open
