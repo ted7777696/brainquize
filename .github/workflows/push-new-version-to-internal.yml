@@ -16,7 +16,7 @@ jobs:
         run: |
           mkdir -p build_output
           gh release download 3.0.0 \
-            --pattern "com.quizbridge.app_3.aab" \
+            --pattern "com.quizbridge.app_3.1.aab" \
             --dir build_output
 
       - name: Setup Ruby
