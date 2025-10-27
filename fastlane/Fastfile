@@ -4,7 +4,7 @@ platform :android do
     supply(
       json_key_data: ENV["GOOGLE_PLAY_JSON_KEY"],
       package_name: "com.quizbridge.app",
-      aab: "build_output/com.quizbridge.app_3.aab",
+      aab: "build_output/com.quizbridge.app_3.1.aab",
       track: "beta", # ← вот так!
       release_status: "completed",
       skip_upload_changelogs: false,
